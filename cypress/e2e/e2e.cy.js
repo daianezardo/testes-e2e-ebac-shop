@@ -14,17 +14,12 @@ context('Exercicio - Testes End-to-end - Fluxo de pedido', () => {
     });
 
 
-    it('Deve selecionar um produto da lista', () => {
-        cy.get('[class="product-block grid"]').first().click()
-    });
-
-    it('Deve fazer um pedido na loja Ebac Shop de ponta a ponta', () => {
-        cy.get('[class="product-block grid"]').first().click()
-        cy.get('.button-variable-item-XS').click()
-        cy.get('.button-variable-item-Red').click()
-        cy.get('.input-text').clear().type('4')
-        cy.get('.single_add_to_cart_button').click()
-
+    it('Deve adicionar produtos ao carrinho e finalizar compra', () => {
+        cy.addProdutos('Abominable Hoodie', 'S', 'Blue', 2)
+        cy.get('#primary-menu > .menu-item-629 > a').click()
+        cy.addProdutos('Abominable Hoodie', 'XS', 'Red', 1)
+        cy.get('#primary-menu > .menu-item-629 > a').click()
+        cy.addProdutos('Atlas Fitness Tank', 'XS', 'Blue', 1)
         cy.get('.woocommerce-message > .button').click()
         cy.get('.checkout-button').click()
         cy.get('.showlogin').click()
@@ -33,10 +28,8 @@ context('Exercicio - Testes End-to-end - Fluxo de pedido', () => {
         cy.get('.woocommerce-button').click()
         cy.get('#terms').click()
         cy.get('#place_order').click()
-
         cy.get('.woocommerce-notice').should('contain', 'Obrigado. Seu pedido foi recebido.')
     });
-
 
 
 })
